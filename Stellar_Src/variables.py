@@ -48,4 +48,3 @@ contract_instance = web3_instance.eth.contract(abi=contract_abi, bytecode=contra
 
 test_url = "http://127.0.0.1:5000/"
 
-

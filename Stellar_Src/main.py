@@ -18,7 +18,7 @@ api = Api(app)
 parser = reqparse.RequestParser()
 
 
-class StellarEnpoint(Resource):
+class StellarEndpoint(Resource):
     # This will call the stellar burn function, 
     # this will emit an event which will send instruction on how to mint on ethereum
     def post(self):
@@ -52,7 +52,10 @@ class StellarEnpoint(Resource):
                         print(e)
                         pass
                     else:
-                        return hash
+                        return jsonify({
+                                "Ethereum_hash": hash,
+                                "Stellar_hash": resp['hash']
+                            })
 
         else:
             abort(400, "Invalid Erc20 Address")
@@ -91,7 +94,7 @@ class StellarDeposit(Resource):
 
 
 # api.add_resource(EtherEnpoints, "/etherCross")
-api.add_resource(StellarEnpoint, "/fromStellarToEther")
+api.add_resource(StellarEndpoint, "/fromStellarToEther")
 api.add_resource(StellarDeposit, "/deposit")
 
 

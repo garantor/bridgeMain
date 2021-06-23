@@ -7,11 +7,11 @@ To Make this contract work we have an event listner that watch for transaction o
 
 ## KEY TERMS 
 
-Asset Issuer: The Account that issuer the Token/coin on stellar blockchain
-Distributor Account This is the account that hold all the user fund on stellar
-IssuerID : Any valid 14 length Hex (This Length  an be modify)
-User Memo : Any valid 26 length Hex (This Length  an be modify)
-Erc20 burn Address : 0x + IssuerID + User Memo 
+* **Asset Issuer**: The Account that issuer the Token/coin on stellar blockchain
+* **Distributor Account** This is the account that hold all the user fund on stellar
+* **IssuerID** : Any valid 14 length Hex (This Length  an be modify)
+* **User Memo** : Any valid 26 length Hex (This Length  an be modify)
+* **Erc20 burn Address** : 0x + IssuerID + User Memo 
 
 # From Stellar To Binance Smart Chain
 

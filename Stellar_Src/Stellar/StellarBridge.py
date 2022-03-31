@@ -185,23 +185,7 @@ class StellarContract:
 
 
 
-# print(StellarContract.Create_Asset(asset_issuer=asset_issuer, asset_code=asset_code))
-# print(StellarContract.trust_asset(distributor_secretKey))
-# print(StellarContract().Mint(distributor_PubKey, 100, None, memo="Trustline"))
+print(StellarContract.Create_Asset(asset_issuer=asset_issuer, asset_code=asset_code))
+print(StellarContract.trust_asset(distributor_secretKey))
+print(StellarContract().Mint(distributor_PubKey, 100, None, memo="Trustline"))
 
-
-
-
-# ad = StellarContract().transfer(memo="Fee745c1EBe0095987F9Df8d5f2e7deCfb2f9A77")
-
-# print(ad)
-
-# import secrets
-# from eth_account import Account
-
-
-
-# add = secrets.token_hex(20)
-
-# add3 = "0x"+add
-# bewAdd = web3_instance.toChecksumAddress(add3)

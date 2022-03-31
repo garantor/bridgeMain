@@ -22,78 +22,78 @@ class ContractGTest(unittest.TestCase):
         self.assertEqual(connection, True)
         print("check_connection Passed")
 
-    # def test_002_transfer(self):
-    #     """
-    #     method to call transfer/mint from the stellar contract, 
-    #     this will mint new token and send to distributor acct or transfer token btw two acct
-    #     """
-    #     data = {
-    #         "amt":self.amount,
-    #         "addr": asset_issuer,
-    #         "type":"transfer",
-    #         "memo": str(self.memo)
-    #     }
-    #     url = test_url + "deposit"
-    #     resp = requests.post(url=url, data=data)
-    #     hash = resp.text.split('"')
+    def test_002_transfer(self):
+        """
+        method to call transfer/mint from the stellar contract, 
+        this will mint new token and send to distributor acct or transfer token btw two acct
+        """
+        data = {
+            "amt":self.amount,
+            "addr": asset_issuer,
+            "type":"transfer",
+            "memo": str(self.memo)
+        }
+        url = test_url + "deposit"
+        resp = requests.post(url=url, data=data)
+        hash = resp.text.split('"')
    
 
-    #     chk_trx = stellar_server.payments().for_transaction(hash[1]).call()
-    #     chk_trx_obj = chk_trx["_embedded"]["records"][0]
+        chk_trx = stellar_server.payments().for_transaction(hash[1]).call()
+        chk_trx_obj = chk_trx["_embedded"]["records"][0]
     
 
-    #     self.assertTrue(resp.status_code == 200)
-    #     self.assertEqual(chk_trx_obj['transaction_successful'], True)
-    #     self.assertTrue(chk_trx_obj["asset_code"] == asset_code)
-    #     self.assertTrue(chk_trx_obj["asset_issuer"] == asset_issuer)
-    #     self.assertEqual(float(chk_trx_obj['amount']), float(self.amount))
-    #     self.assertEqual(chk_trx_obj['from'], asset_issuer)
-    #     self.assertEqual(chk_trx_obj['to'], asset_issuer)
-    #     print("Transfer Passed")
+        self.assertTrue(resp.status_code == 200)
+        self.assertEqual(chk_trx_obj['transaction_successful'], True)
+        self.assertTrue(chk_trx_obj["asset_code"] == asset_code)
+        self.assertTrue(chk_trx_obj["asset_issuer"] == asset_issuer)
+        self.assertEqual(float(chk_trx_obj['amount']), float(self.amount))
+        self.assertEqual(chk_trx_obj['from'], asset_issuer)
+        self.assertEqual(chk_trx_obj['to'], asset_issuer)
+        print("Transfer Passed")
 
 
-    # def test_003_stellar_cross(self):
-    #     """
-    #     test methodd to burn amt of token on stellar and mint amount on ethereum and also send the amount 
-    #     to the specify address(address from the payload)
+    def test_003_stellar_cross(self):
+        """
+        test methodd to burn amt of token on stellar and mint amount on ethereum and also send the amount 
+        to the specify address(address from the payload)
 
-    #     """
-    #     url = test_url + "fromStellarToEther"
-    #     addr = "0xbCD18E8a0bD51c8F4c6E3b5b258D7e43fB4359CC"
-    #     data = {
-    #         "amt": self.amount,
-    #         "eth_add": addr,
-    #         "memo": "User Unique Memo"
-    #     }
-    #     resp = requests.post(url=url, data=data)
-    #     json_resp = resp.json()
-    #     wait_tx_complete = web3_instance.eth.wait_for_transaction_receipt(json_resp['Ethereum_hash'])
-    #     stellar_resp = stellar_server.operations().for_transaction(json_resp['Stellar_hash']).call()
+        """
+        url = test_url + "fromStellarToEther"
+        addr = "0xbCD18E8a0bD51c8F4c6E3b5b258D7e43fB4359CC"
+        data = {
+            "amt": self.amount,
+            "eth_add": addr,
+            "memo": "User Unique Memo"
+        }
+        resp = requests.post(url=url, data=data)
+        json_resp = resp.json()
+        wait_tx_complete = web3_instance.eth.wait_for_transaction_receipt(json_resp['Ethereum_hash'])
+        stellar_resp = stellar_server.operations().for_transaction(json_resp['Stellar_hash']).call()
 
-    #     # ============================================================================================
-    #                             # Ethereum Tx Check
-    #                         # ----------------------------
+        # ============================================================================================
+                                # Ethereum Tx Check
+                            # ----------------------------
         
-    #     eventResp = contract_instance.events.Transfer().processReceipt(wait_tx_complete)
-    #     adc =web3_instance.toJSON(eventResp)
-    #     transferEvent  = json.loads(adc)
+        eventResp = contract_instance.events.Transfer().processReceipt(wait_tx_complete)
+        adc =web3_instance.toJSON(eventResp)
+        transferEvent  = json.loads(adc)
   
-    #     self.assertTrue(transferEvent[0]['args']['_from'] == "0x0000000000000000000000000000000000000000")
-    #     self.assertTrue(transferEvent[0]['args']['_to'] == addr)
-    #     self.assertTrue(transferEvent[0]['args']['_value'] == web3_instance.toWei(self.amount, "ether"))
-    #     # self.assertTrue(transferEvent[0]['transactionHash'] == hash[1])
-    #     # =================================================================================================
-    #                             # Stellar Tx check
-    #                         # ---------------------------
-    #     self.assertEqual(stellar_resp["_embedded"]["records"][0]["asset_issuer"], asset_issuer)
-    #     self.assertEqual(stellar_resp["_embedded"]["records"][0]["asset_code"], asset_code)
-    #     self.assertEqual(stellar_resp["_embedded"]["records"][0]["from"], distributor_PubKey)
-    #     self.assertEqual(stellar_resp["_embedded"]["records"][0]["to"], asset_issuer)
+        self.assertTrue(transferEvent[0]['args']['_from'] == "0x0000000000000000000000000000000000000000")
+        self.assertTrue(transferEvent[0]['args']['_to'] == addr)
+        self.assertTrue(transferEvent[0]['args']['_value'] == web3_instance.toWei(self.amount, "ether"))
+        # self.assertTrue(transferEvent[0]['transactionHash'] == hash[1])
+        # =================================================================================================
+                                # Stellar Tx check
+                            # ---------------------------
+        self.assertEqual(stellar_resp["_embedded"]["records"][0]["asset_issuer"], asset_issuer)
+        self.assertEqual(stellar_resp["_embedded"]["records"][0]["asset_code"], asset_code)
+        self.assertEqual(stellar_resp["_embedded"]["records"][0]["from"], distributor_PubKey)
+        self.assertEqual(stellar_resp["_embedded"]["records"][0]["to"], asset_issuer)
 
-    #     self.assertTrue(int(float(stellar_resp["_embedded"]["records"][0]["amount"])) == self.amount)
-    #     self.assertTrue(stellar_resp["_embedded"]["records"][1]["name"] == addr)
-    #     # print(stellar_resp["_embedded"]["records"][1]["value"])
-    #     print("stellar_cross passed")
+        self.assertTrue(int(float(stellar_resp["_embedded"]["records"][0]["amount"])) == self.amount)
+        self.assertTrue(stellar_resp["_embedded"]["records"][1]["name"] == addr)
+        # print(stellar_resp["_embedded"]["records"][1]["value"])
+        print("stellar_cross passed")
 
 
     def test_004_etherCross(self):
